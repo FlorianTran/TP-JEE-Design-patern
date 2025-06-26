@@ -50,6 +50,7 @@ Méthode	| Endpoint | Description
 - POST	/api/books	Ajouter un livre
 - PUT	/api/books/{id}	Modifier un livre
 - DELETE	/api/books/{id}	Supprimer un livre
+
 Filtres possibles via query params (facultatif) :
 
 GET /api/books?title=java&author=martin&status=AVAILABLE
