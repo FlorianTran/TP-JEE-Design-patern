@@ -36,7 +36,7 @@ Accès h2: http://localhost:8080/h2-console/
 ## 🔍 API REST – Endpoints de test
 ### 📘 Users
 
-Méthode	Endpoint	Description
+Méthode	| Endpoint	| Description
 - GET	/api/users	Liste des utilisateurs
 - GET	/api/users/{id}	Détail d’un utilisateur
 - POST	/api/users	Créer un utilisateur
@@ -44,7 +44,7 @@ Méthode	Endpoint	Description
 - DELETE	/api/users/{id}	Supprimer un utilisateur
 
 ### 📚 Books
-Méthode	Endpoint	Description
+Méthode	| Endpoint | Description
 - GET	/api/books	Liste des livres (avec filtres)
 - GET	/api/books/{id}	Détail d’un livre
 - POST	/api/books	Ajouter un livre
@@ -55,7 +55,7 @@ Filtres possibles via query params (facultatif) :
 GET /api/books?title=java&author=martin&status=AVAILABLE
 
 ### 🔁 Loans
-Méthode	Endpoint	Description
+Méthode	| Endpoint	| Description
 - GET	/api/loans	Liste des emprunts
 - POST	/api/loans	Créer un nouvel emprunt
 - PUT	/api/loans/{id}/return	Retourner un livre
