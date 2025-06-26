@@ -30,47 +30,48 @@ Ce projet est une application **Spring Boot (Java 21)** combinant :
 mvn clean spring-boot:run
 ```
 Accès local : http://localhost:8080
+
 Accès h2: http://localhost:8080/h2-console/
 
 ## 🔍 API REST – Endpoints de test
 ### 📘 Users
+
 Méthode	Endpoint	Description
-GET	/api/users	Liste des utilisateurs
-GET	/api/users/{id}	Détail d’un utilisateur
-POST	/api/users	Créer un utilisateur
-PUT	/api/users/{id}	Modifier un utilisateur
-DELETE	/api/users/{id}	Supprimer un utilisateur
+- GET	/api/users	Liste des utilisateurs
+- GET	/api/users/{id}	Détail d’un utilisateur
+- POST	/api/users	Créer un utilisateur
+- PUT	/api/users/{id}	Modifier un utilisateur
+- DELETE	/api/users/{id}	Supprimer un utilisateur
 
 ### 📚 Books
 Méthode	Endpoint	Description
-GET	/api/books	Liste des livres (avec filtres)
-GET	/api/books/{id}	Détail d’un livre
-POST	/api/books	Ajouter un livre
-PUT	/api/books/{id}	Modifier un livre
-DELETE	/api/books/{id}	Supprimer un livre
-
+- GET	/api/books	Liste des livres (avec filtres)
+- GET	/api/books/{id}	Détail d’un livre
+- POST	/api/books	Ajouter un livre
+- PUT	/api/books/{id}	Modifier un livre
+- DELETE	/api/books/{id}	Supprimer un livre
 Filtres possibles via query params (facultatif) :
 
 GET /api/books?title=java&author=martin&status=AVAILABLE
 
 ### 🔁 Loans
 Méthode	Endpoint	Description
-GET	/api/loans	Liste des emprunts
-POST	/api/loans	Créer un nouvel emprunt
-PUT	/api/loans/{id}/return	Retourner un livre
-GET	/api/loans/user/{userId}	Voir les emprunts d’un utilisateur
+- GET	/api/loans	Liste des emprunts
+- POST	/api/loans	Créer un nouvel emprunt
+- PUT	/api/loans/{id}/return	Retourner un livre
+- GET	/api/loans/user/{userId}	Voir les emprunts d’un utilisateur
 
 ## 🧠 Design Patterns utilisés
-Pattern	Type	Utilisation
-Singleton	Création	NotificationService
-Factory	Création	LoanFactory (création de prêts)
-Strategy	Comportemental	Validation des DTO (Email, ISBN)
-Observer	Comportemental	Notification lors d’un prêt/retour
+Pattern	| Type |	Utilisation
+- Singleton	Création	NotificationService
+- Factory	Création	LoanFactory (création de prêts)
+- Strategy	Comportemental	Validation des DTO (Email, ISBN)
+- Observer	Comportemental	Notification lors d’un prêt/retour
 
 ## 🧪 Tests et qualité
-  Framework de test : JUnit 5
-  Mocking : Mockito
-  Couverture : ~ 70% avec JaCoCo
+  - Framework de test : JUnit 5
+  - Mocking : Mockito
+  - Couverture : ~ 70% avec JaCoCo
 
   Lancer les tests :
 ```
