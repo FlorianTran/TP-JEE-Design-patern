@@ -70,7 +70,7 @@ Observer	Comportemental	Notification lors d’un prêt/retour
 ## 🧪 Tests et qualité
   Framework de test : JUnit 5
   Mocking : Mockito
-  Couverture : > 70% avec JaCoCo
+  Couverture : ~ 70% avec JaCoCo
 
   Lancer les tests :
 ```
