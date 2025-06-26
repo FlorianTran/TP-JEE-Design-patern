@@ -7,6 +7,9 @@ import com.JEE.demo.strategy.EmailValidationStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
+
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.*;
 
 class UserServiceTest {
@@ -30,5 +33,38 @@ class UserServiceTest {
         Mockito.verify(validator).validate(dto);
         Mockito.verify(repo).save(Mockito.any(User.class));
         assertThat(result.getEmail()).isEqualTo("bob@example.com");
+    }
+
+    @Test
+    void findById_returnsCorrectUser() {
+        User u = new User("x@y.z", "X", "Z");
+        Mockito.when(repo.findById(1L)).thenReturn(Optional.of(u));
+
+        assertThat(service.findById(1L)).isEqualTo(u);
+    }
+
+    @Test
+    void update_modifiesUserProperly() {
+        User old = new User("a@a.com", "A", "B");
+        UserDTO dto = new UserDTO(null, "b@b.com", "C", "D");
+
+        Mockito.when(repo.findById(1L)).thenReturn(Optional.of(old));
+        Mockito.when(repo.save(Mockito.any())).thenAnswer(inv -> inv.getArgument(0));
+
+        User result = service.update(1L, dto);
+
+        assertThat(result.getEmail()).isEqualTo("b@b.com");
+        assertThat(result.getFirstName()).isEqualTo("C");
+        assertThat(result.getLastName()).isEqualTo("D");
+    }
+
+    @Test
+    void delete_removesUser() {
+        User u = new User("test@test.com", "Test", "User");
+        Mockito.when(repo.findById(1L)).thenReturn(Optional.of(u));
+
+        service.delete(1L);
+
+        Mockito.verify(repo).deleteById(1L);
     }
 }

@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import java.util.List;
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.*;
 
 class BookServiceTest {
@@ -51,5 +53,38 @@ class BookServiceTest {
 
         List<Book> nothing = service.findByFilters("java", "martin", BookStatus.AVAILABLE);
         assertThat(nothing).isEmpty();
+    }
+
+    @Test
+    void findById_returnsCorrectBook() {
+        Book book = new Book("Effective Java", "Joshua Bloch", "9999999999");
+        Mockito.when(repo.findById(1L)).thenReturn(Optional.of(book));
+
+        Book result = service.findById(1L);
+        assertThat(result).isEqualTo(book);
+    }
+
+    @Test
+    void update_updatesBookFieldsCorrectly() {
+        Book original = new Book("Old Title", "Old Author", "111");
+        BookDTO update = new BookDTO(null, "New Title", "New Author", "111");
+
+        Mockito.when(repo.findById(1L)).thenReturn(Optional.of(original));
+        Mockito.when(repo.save(Mockito.any())).thenAnswer(inv -> inv.getArgument(0));
+
+        Book result = service.update(1L, update);
+
+        assertThat(result.getTitle()).isEqualTo("New Title");
+        assertThat(result.getAuthor()).isEqualTo("New Author");
+    }
+
+    @Test
+    void delete_removesBook() {
+        Book book = new Book("To Delete", "Someone", "000");
+        Mockito.when(repo.findById(1L)).thenReturn(Optional.of(book));
+
+        service.delete(1L);
+
+        Mockito.verify(repo).deleteById(1L);
     }
 }

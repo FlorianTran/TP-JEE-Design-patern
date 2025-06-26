@@ -19,6 +19,7 @@ public class User {
     private String firstName;
     private String lastName;
     private LocalDateTime createdAt;
+
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
@@ -38,12 +39,23 @@ public class User {
     }
 
     public Long getId() { return id; }
-    public String getEmail() { return email; }
-    public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public UserStatus getStatus() { return status; }
-    public List<Loan> getLoans() { return loans; }
+    public void setId(Long id) { this.id = id; }
 
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public UserStatus getStatus() { return status; }
     public void setStatus(UserStatus status) { this.status = status; }
+
+    public List<Loan> getLoans() { return loans; }
+    public void setLoans(List<Loan> loans) { this.loans = loans; }
 }

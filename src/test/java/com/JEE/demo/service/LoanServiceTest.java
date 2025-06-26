@@ -8,6 +8,8 @@ import com.JEE.demo.repository.*;
 import com.JEE.demo.service.observer.LoanObserver;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
+
+import java.util.List;
 import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 
@@ -77,5 +79,37 @@ class LoanServiceTest {
 
         Mockito.verify(obs).onCreated(loan);
         Mockito.verify(bookRepo).save(book);
+    }
+
+    @Test
+    void returnBook_setsBookAvailableAndLoanReturned() {
+        Book book = new Book("Test", "Author", "123");
+        Loan loan = new Loan(user, book);
+
+        Mockito.when(loanRepo.findById(1L)).thenReturn(Optional.of(loan));
+        Mockito.when(loanRepo.save(Mockito.any())).thenAnswer(inv -> inv.getArgument(0));
+
+        Loan result = service.returnBook(1L);
+
+        assertThat(book.getStatus()).isEqualTo(BookStatus.AVAILABLE);
+        assertThat(result.getStatus()).isEqualTo(LoanStatus.RETURNED);
+        assertThat(result.getReturnDate()).isNotNull();
+        Mockito.verify(bookRepo).save(book);
+    }
+
+    @Test
+    void findAll_returnsAllLoans() {
+        Loan loan1 = new Loan(user, book);
+        Mockito.when(loanRepo.findAll()).thenReturn(List.of(loan1));
+
+        assertThat(service.findAll()).containsExactly(loan1);
+    }
+
+    @Test
+    void findByUserId_returnsMatchingLoans() {
+        Loan loan1 = new Loan(user, book);
+        Mockito.when(loanRepo.findByUserId(1L)).thenReturn(List.of(loan1));
+
+        assertThat(service.findByUserId(1L)).containsExactly(loan1);
     }
 }

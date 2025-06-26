@@ -3,12 +3,15 @@ package com.JEE.demo.service;
 import com.JEE.demo.dto.LoanDTO;
 import com.JEE.demo.entity.*;
 import com.JEE.demo.entity.enums.BookStatus;
+import com.JEE.demo.entity.enums.LoanStatus;
 import com.JEE.demo.factory.LoanFactory;
 import com.JEE.demo.repository.BookRepository;
 import com.JEE.demo.repository.LoanRepository;
 import com.JEE.demo.repository.UserRepository;
 import com.JEE.demo.service.observer.LoanObserver;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -26,7 +29,17 @@ public class LoanService {
         this.bookRepo = bookRepo;
     }
 
-    public void addObserver(LoanObserver o) { observers.add(o); }
+    public void addObserver(LoanObserver o) {
+        observers.add(o);
+    }
+
+    public List<Loan> findAll() {
+        return loanRepo.findAll();
+    }
+
+    public List<Loan> findByUserId(Long userId) {
+        return loanRepo.findByUserId(userId);
+    }
 
     public Loan create(LoanDTO dto) {
         User user = userRepo.findById(dto.userId())
@@ -38,10 +51,25 @@ public class LoanService {
 
         Loan loan = LoanFactory.createStandardLoan(user, book);
         Loan saved = loanRepo.save(loan);
+
         book.setStatus(BookStatus.BORROWED);
         bookRepo.save(book);
+
         notifyCreated(saved);
         return saved;
+    }
+
+    public Loan returnBook(Long id) {
+        Loan loan = loanRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Emprunt introuvable"));
+
+        Book book = loan.getBook();
+        book.setStatus(BookStatus.AVAILABLE);
+        bookRepo.save(book);
+
+        loan.setStatus(LoanStatus.RETURNED);
+        loan.setReturnDate(LocalDateTime.now());
+        return loanRepo.save(loan);
     }
 
     private void notifyCreated(Loan loan) {
