@@ -23,10 +23,11 @@ public class LoanService {
     private final BookRepository bookRepo;
     private final List<LoanObserver> observers = new CopyOnWriteArrayList<>();
 
-    public LoanService(LoanRepository loanRepo, UserRepository userRepo, BookRepository bookRepo) {
+    public LoanService(LoanRepository loanRepo, UserRepository userRepo, BookRepository bookRepo, NotificationService notificationService) {
         this.loanRepo = loanRepo;
         this.userRepo = userRepo;
         this.bookRepo = bookRepo;
+        this.addObserver(notificationService);
     }
 
     public void addObserver(LoanObserver o) {
