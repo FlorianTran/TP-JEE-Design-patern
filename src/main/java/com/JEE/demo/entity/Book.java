@@ -1,6 +1,7 @@
 package com.JEE.demo.entity;
 
 import com.JEE.demo.entity.enums.BookStatus;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class Book {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "book")
+    @JsonManagedReference
     private List<Loan> loans = new ArrayList<>();
 
     public Book() {

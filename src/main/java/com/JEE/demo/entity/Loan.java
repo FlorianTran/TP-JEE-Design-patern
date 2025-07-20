@@ -1,6 +1,7 @@
 package com.JEE.demo.entity;
 
 import com.JEE.demo.entity.enums.LoanStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -12,9 +13,11 @@ public class Loan {
     private Long id;
 
     @ManyToOne(optional = false)
+    @JsonBackReference
     private User user;
 
     @ManyToOne(optional = false)
+    @JsonBackReference
     private Book book;
 
     private LocalDateTime loanDate;
